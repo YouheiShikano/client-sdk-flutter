@@ -27,6 +27,7 @@ import '../../stats/stats.dart';
 import '../../support/platform.dart';
 import '../../types/other.dart';
 import '../options.dart';
+import '../processor.dart';
 import 'audio.dart';
 import 'local.dart';
 
@@ -154,12 +155,9 @@ class LocalVideoTrack extends LocalTrack with VideoTrack {
   }
 
   // Private constructor
-  LocalVideoTrack._(
-    TrackSource source,
-    rtc.MediaStream stream,
-    rtc.MediaStreamTrack track,
-    this.currentOptions,
-  ) : super(
+  LocalVideoTrack._(TrackSource source, rtc.MediaStream stream,
+      rtc.MediaStreamTrack track, this.currentOptions)
+      : super(
           TrackType.VIDEO,
           source,
           stream,
@@ -173,12 +171,18 @@ class LocalVideoTrack extends LocalTrack with VideoTrack {
     options ??= const CameraCaptureOptions();
 
     final stream = await LocalTrack.createStream(options);
-    return LocalVideoTrack._(
+    var track = LocalVideoTrack._(
       TrackSource.camera,
       stream,
       stream.getVideoTracks().first,
       options,
     );
+
+    if (options.processor != null) {
+      await track.setProcessor(options.processor);
+    }
+
+    return track;
   }
 
   /// Creates a LocalVideoTrack from the display.

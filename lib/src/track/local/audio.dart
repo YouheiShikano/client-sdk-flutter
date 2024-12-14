@@ -16,6 +16,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
+import 'package:livekit_client/src/track/processor.dart';
 import 'package:meta/meta.dart';
 
 import '../../events.dart';
@@ -133,11 +134,17 @@ class LocalAudioTrack extends LocalTrack
     options ??= const AudioCaptureOptions();
     final stream = await LocalTrack.createStream(options);
 
-    return LocalAudioTrack(
+    var track = LocalAudioTrack(
       TrackSource.microphone,
       stream,
       stream.getAudioTracks().first,
       options,
     );
+
+    if (options.processor != null) {
+      await track.setProcessor(options.processor);
+    }
+
+    return track;
   }
 }
