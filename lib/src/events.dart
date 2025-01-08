@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:livekit_client/src/track/processor.dart';
 import 'core/engine.dart';
 import 'core/room.dart';
 import 'core/signal_client.dart';
@@ -346,8 +347,7 @@ class ParticipantMetadataUpdatedEvent with RoomEvent, ParticipantEvent {
 
 /// [Pariticpant]'s [ConnectionQuality] has updated.
 /// Emitted by [Room] and [Participant].
-class ParticipantConnectionQualityUpdatedEvent
-    with RoomEvent, ParticipantEvent {
+class ParticipantConnectionQualityUpdatedEvent with RoomEvent, ParticipantEvent {
   final Participant participant;
   final ConnectionQuality connectionQuality;
   const ParticipantConnectionQualityUpdatedEvent({
@@ -509,4 +509,17 @@ class VideoReceiverStatsEvent with TrackEvent {
   @override
   String toString() => '${runtimeType}'
       'stats: ${stats})';
+}
+
+class TrackProcessorUpdateEvent with TrackEvent {
+  final Track track;
+  final TrackProcessor? processor;
+  const TrackProcessorUpdateEvent({
+    required this.track,
+    this.processor,
+  });
+
+  @override
+  String toString() => '${runtimeType}'
+      'track: ${track})';
 }
