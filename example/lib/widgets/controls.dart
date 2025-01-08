@@ -41,8 +41,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
   void initState() {
     super.initState();
     participant.addListener(_onChange);
-    _subscription = Hardware.instance.onDeviceChange.stream
-        .listen((List<MediaDevice> devices) {
+    _subscription = Hardware.instance.onDeviceChange.stream.listen((List<MediaDevice> devices) {
       _loadDevices(devices);
     });
     Hardware.instance.enumerateDevices().then(_loadDevices);
@@ -165,21 +164,17 @@ class _ControlsWidgetState extends State<ControlsWidget> {
             const androidConfig = FlutterBackgroundAndroidConfig(
               notificationTitle: 'Screen Sharing',
               notificationText: 'LiveKit Example is sharing the screen.',
-              notificationImportance: AndroidNotificationImportance.Default,
-              notificationIcon: AndroidResource(
-                  name: 'livekit_ic_launcher', defType: 'mipmap'),
+              // notificationImportance: AndroidNotificationImportance.Default,
+              notificationIcon: AndroidResource(name: 'livekit_ic_launcher', defType: 'mipmap'),
             );
-            hasPermissions = await FlutterBackground.initialize(
-                androidConfig: androidConfig);
+            hasPermissions = await FlutterBackground.initialize(androidConfig: androidConfig);
           }
-          if (hasPermissions &&
-              !FlutterBackground.isBackgroundExecutionEnabled) {
+          if (hasPermissions && !FlutterBackground.isBackgroundExecutionEnabled) {
             await FlutterBackground.enableBackgroundExecution();
           }
         } catch (e) {
           if (!isRetry) {
-            return await Future<void>.delayed(const Duration(seconds: 1),
-                () => requestBackgroundPermission(true));
+            return await Future<void>.delayed(const Duration(seconds: 1), () => requestBackgroundPermission(true));
           }
           print('could not publish video: $e');
         }
@@ -199,8 +194,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
     }
 
     if (lkPlatformIsWebMobile()) {
-      await context
-          .showErrorDialog('Screen share is not supported on mobile web');
+      await context.showErrorDialog('Screen share is not supported on mobile web');
       return;
     }
 
@@ -247,27 +241,21 @@ class _ControlsWidgetState extends State<ControlsWidget> {
       }
 
       if (SimulateScenarioResult.participantMetadata == result) {
-        widget.room.localParticipant?.setMetadata(
-            'new metadata ${widget.room.localParticipant?.identity}');
+        widget.room.localParticipant?.setMetadata('new metadata ${widget.room.localParticipant?.identity}');
       }
 
       if (SimulateScenarioResult.participantName == result) {
-        widget.room.localParticipant
-            ?.setName('new name for ${widget.room.localParticipant?.identity}');
+        widget.room.localParticipant?.setName('new name for ${widget.room.localParticipant?.identity}');
       }
 
       await widget.room.sendSimulateScenario(
-        speakerUpdate:
-            result == SimulateScenarioResult.speakerUpdate ? 3 : null,
-        signalReconnect:
-            result == SimulateScenarioResult.signalReconnect ? true : null,
-        fullReconnect:
-            result == SimulateScenarioResult.fullReconnect ? true : null,
+        speakerUpdate: result == SimulateScenarioResult.speakerUpdate ? 3 : null,
+        signalReconnect: result == SimulateScenarioResult.signalReconnect ? true : null,
+        fullReconnect: result == SimulateScenarioResult.fullReconnect ? true : null,
         nodeFailure: result == SimulateScenarioResult.nodeFailure ? true : null,
         migration: result == SimulateScenarioResult.migration ? true : null,
         serverLeave: result == SimulateScenarioResult.serverLeave ? true : null,
-        switchCandidate:
-            result == SimulateScenarioResult.switchCandidate ? true : null,
+        switchCandidate: result == SimulateScenarioResult.switchCandidate ? true : null,
       );
     }
   }
@@ -326,8 +314,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
                         return PopupMenuItem<MediaDevice>(
                           value: device,
                           child: ListTile(
-                            leading: (device.deviceId ==
-                                    widget.room.selectedAudioInputDeviceId)
+                            leading: (device.deviceId == widget.room.selectedAudioInputDeviceId)
                                 ? const Icon(
                                     Icons.check_box_outlined,
                                     color: Colors.white,
@@ -370,8 +357,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
                       return PopupMenuItem<MediaDevice>(
                         value: device,
                         child: ListTile(
-                          leading: (device.deviceId ==
-                                  widget.room.selectedAudioOutputDeviceId)
+                          leading: (device.deviceId == widget.room.selectedAudioOutputDeviceId)
                               ? const Icon(
                                   Icons.check_box_outlined,
                                   color: Colors.white,
@@ -391,11 +377,8 @@ class _ControlsWidgetState extends State<ControlsWidget> {
           if (!kIsWeb && lkPlatformIs(PlatformType.iOS))
             IconButton(
               disabledColor: Colors.grey,
-              onPressed: Hardware.instance.canSwitchSpeakerphone
-                  ? _setSpeakerphoneOn
-                  : null,
-              icon: Icon(
-                  _speakerphoneOn ? Icons.speaker_phone : Icons.phone_android),
+              onPressed: Hardware.instance.canSwitchSpeakerphone ? _setSpeakerphoneOn : null,
+              icon: Icon(_speakerphoneOn ? Icons.speaker_phone : Icons.phone_android),
               tooltip: 'Switch SpeakerPhone',
             ),
           if (participant.isCameraEnabled())
@@ -419,8 +402,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
                       return PopupMenuItem<MediaDevice>(
                         value: device,
                         child: ListTile(
-                          leading: (device.deviceId ==
-                                  widget.room.selectedVideoInputDeviceId)
+                          leading: (device.deviceId == widget.room.selectedVideoInputDeviceId)
                               ? const Icon(
                                   Icons.check_box_outlined,
                                   color: Colors.white,
@@ -444,9 +426,7 @@ class _ControlsWidgetState extends State<ControlsWidget> {
               tooltip: 'un-mute video',
             ),
           IconButton(
-            icon: Icon(position == CameraPosition.back
-                ? Icons.video_camera_back
-                : Icons.video_camera_front),
+            icon: Icon(position == CameraPosition.back ? Icons.video_camera_back : Icons.video_camera_front),
             onPressed: () => _toggleCamera(),
             tooltip: 'toggle camera',
           ),
