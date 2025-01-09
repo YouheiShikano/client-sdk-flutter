@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import 'dart:js_interop';
-import 'dart:js_util' as jsutil;
+// import 'dart:js_util' as jsutil;
 
 import 'package:flutter_webrtc/flutter_webrtc.dart' as rtc;
 import 'package:web/web.dart' as web;
@@ -86,10 +86,10 @@ web.HTMLDivElement findOrCreateAudioContainer() {
   return div;
 }
 
-void setSinkId(String id, String deviceId) {
-  final audioElement = web.document.getElementById(audioPrefix + id);
-  if (audioElement is web.HTMLAudioElement &&
-      jsutil.hasProperty(audioElement, 'setSinkId')) {
-    audioElement.setSinkId(deviceId);
-  }
-}
+// void setSinkId(String id, String deviceId) {
+//   final audioElement = web.document.getElementById(audioPrefix + id);
+//   if (audioElement is web.HTMLAudioElement &&
+//       jsutil.hasProperty(audioElement, 'setSinkId')) {
+//     audioElement.setSinkId(deviceId);
+//   }
+// }
